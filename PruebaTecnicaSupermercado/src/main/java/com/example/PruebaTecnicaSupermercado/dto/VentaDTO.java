@@ -1,0 +1,20 @@
+package com.example.PruebaTecnicaSupermercado.dto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class VentaDTO {
+private Long id;
+private LocalDate fecha;
+private String estado;
+private Long idSucursal;
+private List<DetalleVentaDTO> detalles;
+private Double total;
+}
