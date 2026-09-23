@@ -1,0 +1,45 @@
+package com.example.PruebaTecnicaSupermercado.controller;
+
+import java.net.URI;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.PruebaTecnicaSupermercado.dto.VentaDTO;
+import com.example.PruebaTecnicaSupermercado.service.IVentaService;
+
+@RestController
+@RequestMapping("/api/ventas")
+public class VentaController {
+    @Autowired 
+    private IVentaService ventaService;
+
+    @GetMapping
+    public ResponseEntity<List<VentaDTO>> traerVentas(){
+        return ResponseEntity.ok(ventaService.traerVentas());
+    }
+    @PostMapping("/crear")
+    public ResponseEntity<VentaDTO> crearVenta(@RequestBody VentaDTO ventaDTO){
+        VentaDTO creado= ventaService.crearVenta(ventaDTO);
+        return ResponseEntity.created(URI.create("/api/ventas"+creado.getEstado())).body(creado);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<VentaDTO> actualizarVenta(@PathVariable Long id, @RequestBody VentaDTO ventaDTO){
+        return ResponseEntity.ok(ventaService.actualizarVenta(id, ventaDTO));
+    }
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Void> eliminarVenta(@PathVariable Long id){
+        ventaService.eliminarVenta(id);
+        return ResponseEntity.noContent().build();
+    }
+
+}
